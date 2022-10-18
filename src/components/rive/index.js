@@ -3,7 +3,7 @@ import React, { useRef } from 'react'
 import { Pressable, View } from 'react-native'
 import Rive, { LoopMode } from 'rive-react-native'
 
-const Zerobot = () => {
+const Zerobot = ({ style }) => {
   const riveRef = useRef(null)
   const [assets, error] = useAssets([require('../../../assets/zerobot.riv')])
 
@@ -14,12 +14,13 @@ const Zerobot = () => {
   if (assets) {
     return (
       <Pressable onTouchStart={onPress}>
-        <View style={{ width: 250, height: 250 }}>
+        <View style={[{ width: 250, height: 250 }, style]}>
           <Rive
             ref={riveRef}
             url={assets[0].uri}
             artboardName="New Artboard"
             animationName="idle"
+            style={[{ width: 250, height: 250 }, style]}
           />
         </View>
       </Pressable>
