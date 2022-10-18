@@ -1,8 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native'
 import { StatusBar } from 'expo-status-bar'
 
-import AppNavigator from './src/navigations/AppNavigator'
-import navigationTheme from './src/navigations/navigationTheme'
+import { AppNavigator, navigationTheme } from './src/navigations'
 
 export default function App() {
   return (
