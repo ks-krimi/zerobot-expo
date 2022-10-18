@@ -1,19 +1,13 @@
+import { NavigationContainer } from '@react-navigation/native'
 import { StatusBar } from 'expo-status-bar'
-import { StyleSheet, View } from 'react-native'
 
-import Welcome from './src/screens/Welcome'
+import AppNavigator from './src/navigations/AppNavigator'
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Welcome />
+    <NavigationContainer>
       <StatusBar style="auto" />
-    </View>
+      <AppNavigator />
+    </NavigationContainer>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  }
-})
