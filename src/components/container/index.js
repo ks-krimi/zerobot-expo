@@ -19,9 +19,7 @@ const styles = StyleSheet.create({
   },
   view: {
     flex: 1,
-    justifyContent: 'center',
-    backgroundColor: colors.light,
-    alignItems: 'center'
+    backgroundColor: colors.light
   }
 })
 
