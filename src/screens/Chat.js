@@ -16,12 +16,12 @@ const Chat = ({ navigation }) => {
 
   return (
     <FlatList
-      ref={flatListRef}
-      onContentSizeChange={handleScrollToEnd}
-      contentContainerStyle={styles.view}
       data={mock}
-      keyExtractor={(message) => message.id}
+      ref={flatListRef}
       renderItem={renderItem}
+      contentContainerStyle={styles.view}
+      onContentSizeChange={handleScrollToEnd}
+      keyExtractor={(message) => message.id}
     />
   )
 }
