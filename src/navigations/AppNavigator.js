@@ -21,10 +21,10 @@ function AppNavigator() {
         options={{
           animation: 'fade_from_bottom',
           headerShadowVisible: false,
-          headerTintColor: colors.white,
+          headerTintColor: colors.primary,
           title: 'Discussion',
           headerStyle: {
-            backgroundColor: colors.light
+            backgroundColor: colors.paper
           }
         }}
       />

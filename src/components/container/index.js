@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   },
   view: {
     flex: 1,
-    backgroundColor: colors.light
+    backgroundColor: colors.paper
   }
 })
 

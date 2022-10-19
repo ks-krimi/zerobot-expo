@@ -46,19 +46,19 @@ const styles = StyleSheet.create({
   },
   view: {
     paddingHorizontal: 15,
-    backgroundColor: colors.light
+    backgroundColor: colors.paper
   },
   icon: {
     fontSize: 28,
-    color: colors.dark
+    color: colors.primary
   },
   inputContainer: {
     paddingHorizontal: 15,
-    backgroundColor: colors.light,
+    backgroundColor: colors.paper,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    borderTopColor: 'transparent',
+    borderTopColor: colors.grey,
     borderTopWidth: 1
   }
 })
