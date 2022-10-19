@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import { FlatList, StyleSheet } from 'react-native'
 
-import Message from '../components/Message'
+import Message from '../components/message'
 import colors from '../config/colors'
 import mock from '../mock'
 
