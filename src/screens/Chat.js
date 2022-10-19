@@ -1,6 +1,7 @@
 import React, { useRef } from 'react'
-import { FlatList, StyleSheet, Text, View } from 'react-native'
+import { FlatList, StyleSheet } from 'react-native'
 
+import Message from '../components/Message'
 import colors from '../config/colors'
 import mock from '../mock'
 
@@ -11,6 +12,8 @@ const Chat = ({ navigation }) => {
     flatListRef.current.scrollToEnd()
   }
 
+  const renderItem = ({ item }) => <Message message={item} />
+
   return (
     <FlatList
       ref={flatListRef}
@@ -18,21 +21,7 @@ const Chat = ({ navigation }) => {
       contentContainerStyle={styles.view}
       data={mock}
       keyExtractor={(message) => message.id}
-      renderItem={({ item }) => {
-        if (item.by !== 'me')
-          return (
-            <Text key={item.id} style={[styles.message, styles.robot]}>
-              {item.content}
-            </Text>
-          )
-        else
-          return (
-            <Text key={item.id} style={[styles.message, styles.me]}>
-              {item.content}
-            </Text>
-          )
-      }}
-      ListFooterComponent={<View style={styles.footer} />}
+      renderItem={renderItem}
     />
   )
 }
@@ -46,26 +35,5 @@ const styles = StyleSheet.create({
   view: {
     paddingHorizontal: 15,
     backgroundColor: colors.light
-  },
-  message: {
-    borderRadius: 25,
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    marginVertical: 5,
-    maxWidth: '70%'
-  },
-  robot: {
-    alignSelf: 'flex-start',
-    backgroundColor: colors.grey,
-
-    color: colors.dark
-  },
-  me: {
-    alignSelf: 'flex-end',
-    backgroundColor: colors.primary,
-    color: colors.white
-  },
-  footer: {
-    padding: 40
   }
 })
