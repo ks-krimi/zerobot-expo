@@ -7,5 +7,6 @@ export default {
   grey: '#f8f4f4',
   light: '#9c786c',
   dark: '#40241a',
-  danger: '#ff5252'
+  danger: '#ff5252',
+  paper: '#fff'
 }
