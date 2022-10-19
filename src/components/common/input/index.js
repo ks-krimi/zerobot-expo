@@ -1,16 +1,30 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
 import React from 'react'
 import { StyleSheet, TextInput, View } from 'react-native'
 
+import colors from '../../../config/colors'
 import defaultStyles from '../../../config/styles'
 
-function AppTextInput({ icon, width = '100%', ...otherProps }) {
+function AppTextInput({
+  icon,
+  iconType = 'MaterialCommunityIcons',
+  width = '100%',
+  ...otherProps
+}) {
   return (
     <View style={[styles.container, { width }]}>
-      {icon && (
+      {icon && iconType === 'MaterialIcons' && (
+        <MaterialIcons
+          name={icon}
+          size={24}
+          color={defaultStyles.colors.medium}
+          style={styles.icon}
+        />
+      )}
+      {icon && iconType === 'MaterialCommunityIcons' && (
         <MaterialCommunityIcons
           name={icon}
-          size={20}
+          size={24}
           color={defaultStyles.colors.medium}
           style={styles.icon}
         />
@@ -26,17 +40,21 @@ function AppTextInput({ icon, width = '100%', ...otherProps }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: defaultStyles.colors.light,
+    backgroundColor: defaultStyles.colors.grey,
     borderRadius: 25,
     flexDirection: 'row',
-    padding: 15,
-    marginVertical: 10
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    marginVertical: 8,
+    alignItems: 'center'
   },
   icon: {
     marginRight: 10
   },
   input: {
-    width: '100%'
+    width: '100%',
+    fontSize: 14,
+    color: colors.dark
   }
 })
 
