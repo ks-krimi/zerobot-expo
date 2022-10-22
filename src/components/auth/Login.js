@@ -1,24 +1,39 @@
 import { Formik } from 'formik'
 import React from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux'
 
 import colors from '../../config/colors'
+import { login } from '../../features/login'
 import { validateLogin } from '../../helpers'
 import { Button, Input } from '../common'
 
-const Login = ({ setLogin, setLoggedIn }) => {
+const Login = ({ bottomSheet, setLogin, setLoggedIn }) => {
+  const dispatch = useDispatch()
+  const { error } = useSelector((store) => store.login)
+
   return (
     <View style={styles.container}>
       <Formik
         initialValues={{ username: '', password: '' }}
         validate={validateLogin}
         onSubmit={(values, helpers) => {
-          console.log(values)
-          setLoggedIn(true)
-          helpers.resetForm()
+          dispatch(
+            login({
+              credentials: values,
+              onSuccess: { bottomSheet, setLoggedIn, helpers }
+            })
+          )
         }}
       >
-        {({ handleChange, handleBlur, handleSubmit, isValid, values }) => (
+        {({
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          isValid,
+          values,
+          isSubmitting
+        }) => (
           <View>
             <Input
               icon="email"
@@ -36,11 +51,14 @@ const Login = ({ setLogin, setLoggedIn }) => {
               value={values.password}
             />
             <Button
-              disabled={!isValid}
+              disabled={!isValid || isSubmitting}
               onPress={handleSubmit}
               title="Se connecter"
               style={{ padding: 8 }}
             />
+            {!!error?.status && (
+              <Text style={{ color: colors.dark }}>{error.message}</Text>
+            )}
           </View>
         )}
       </Formik>
