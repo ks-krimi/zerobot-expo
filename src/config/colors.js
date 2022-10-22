@@ -8,5 +8,6 @@ export default {
   light: '#9c786c',
   dark: '#40241a',
   danger: '#ff5252',
-  paper: '#fff'
+  paper: '#fff',
+  disabled: '#dddddd'
 }
