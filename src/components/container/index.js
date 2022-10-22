@@ -4,9 +4,12 @@ import { StyleSheet, View, ScrollView } from 'react-native'
 
 import colors from '../../config/colors'
 
-function Container({ children, style, viewStyle }) {
+function Container({ children, style, viewStyle, onLayout }) {
   return (
-    <ScrollView contentContainerStyle={[styles.container, style]}>
+    <ScrollView
+      onLayout={onLayout}
+      contentContainerStyle={[styles.container, style]}
+    >
       <View style={[styles.view, viewStyle]}>{children}</View>
     </ScrollView>
   )
