@@ -1,22 +1,23 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from 'axios'
 
-import routes from './constants/routes'
-import { navigate } from './navigations'
-
 const headers = {}
 
 const axiosInstance = axios.create({
   baseURL: process.env.API_URL,
-  headers
+  headers,
+  validateStatus: (status) => {
+    return status >= 200 && status < 500
+  }
 })
 
 axiosInstance.interceptors.request.use(
   async (config) => {
     const token = await AsyncStorage.getItem('token')
+    const parsedToken = JSON.parse(token)
     if (token) {
-      console.log('access token: ', token)
-      // TODO: set token authorization in header
+      // set token authorization in headers
+      config.headers.Authorization = `${parsedToken.token_type} ${parsedToken.access_token}`
     }
     return config
   },
@@ -25,25 +26,17 @@ axiosInstance.interceptors.request.use(
 
 axiosInstance.interceptors.response.use(
   (response) => {
-    return new Promise((resolve, reject) => {
+    if (response.status === 401) {
+      // TODO: if UNAUTHORIZED
+    }
+    return new Promise((resolve, _) => {
       resolve(response)
     })
   },
   (error) => {
-    if (!error.response) {
-      return new Promise((resolve, reject) => {
-        reject(error)
-      })
-    }
-
-    // unauthorized
-    if (error.response.status === 403) {
-      navigate(routes.WELCOME, { tokenInvalideOrExpired: true })
-    } else {
-      return new Promise((resolve, reject) => {
-        reject(error)
-      })
-    }
+    return new Promise((_, reject) => {
+      reject(error)
+    })
   }
 )
 
