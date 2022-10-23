@@ -1,13 +1,14 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import React, { useRef } from 'react'
 import { FlatList, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { useSelector } from 'react-redux'
 
 import { Input } from '../components/common'
 import Message from '../components/message'
 import colors from '../config/colors'
-import mock from '../mock'
 
 const Chat = ({ navigation }) => {
+  const { messages } = useSelector((store) => store.tchat)
   const flatListRef = useRef()
 
   const handleScrollToEnd = () => {
@@ -19,7 +20,7 @@ const Chat = ({ navigation }) => {
   return (
     <>
       <FlatList
-        data={mock}
+        data={messages}
         ref={flatListRef}
         renderItem={renderItem}
         contentContainerStyle={styles.view}
