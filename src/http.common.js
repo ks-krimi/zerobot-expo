@@ -25,9 +25,10 @@ axiosInstance.interceptors.request.use(
 )
 
 axiosInstance.interceptors.response.use(
-  (response) => {
+  async (response) => {
     if (response.status === 401) {
       // TODO: if UNAUTHORIZED
+      await AsyncStorage.removeItem('token')
     }
     return new Promise((resolve, _) => {
       resolve(response)
