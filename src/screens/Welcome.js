@@ -5,8 +5,15 @@ import {
 } from '@gorhom/bottom-sheet'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as SplashScreen from 'expo-splash-screen'
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { StyleSheet } from 'react-native'
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState
+} from 'react'
+import { StyleSheet, TouchableOpacity } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { useDispatch } from 'react-redux'
 
@@ -16,13 +23,15 @@ import Container from '../components/container'
 import Zerobot from '../components/rive'
 import colors from '../config/colors'
 import routes from '../constants/routes'
+import { AuthContext } from '../context/auth'
 import { defineAccessToken } from '../features/login'
+import { getMessages } from '../features/tchat'
 
 SplashScreen.preventAutoHideAsync()
 
 const Welcome = ({ navigation }) => {
   const [login, setLogin] = useState(true)
-  const [loggedIN, setLoggedIn] = useState(false)
+  const { loggedIN, setLoggedIn } = useContext(AuthContext)
   const [authLoaded, setAuthLoaded] = useState(false)
   const dispatch = useDispatch()
 
@@ -35,8 +44,17 @@ const Welcome = ({ navigation }) => {
       try {
         const token = await AsyncStorage.getItem('token')
         if (token) {
-          setLoggedIn(true)
-          dispatch(defineAccessToken(JSON.parse(token)))
+          dispatch(
+            getMessages({
+              setLoggedIn,
+              defineAccessToken: () => {
+                dispatch(defineAccessToken(JSON.parse(token)))
+              },
+              removeAccessToken: () => {
+                dispatch(defineAccessToken(null))
+              }
+            })
+          )
         } else {
           setLoggedIn(false)
         }
@@ -48,7 +66,7 @@ const Welcome = ({ navigation }) => {
     }
 
     prepare()
-  }, [])
+  }, [loggedIN, setLoggedIn])
 
   const onLayoutRootView = useCallback(async () => {
     if (authLoaded) {
@@ -80,6 +98,16 @@ const Welcome = ({ navigation }) => {
             }
             style={{ width: 250 }}
           />
+          {loggedIN && (
+            <TouchableOpacity
+              onPress={async () => {
+                setLoggedIn(false)
+                await AsyncStorage.removeItem('token')
+              }}
+            >
+              <Text style={styles.text}> Déconnexion </Text>
+            </TouchableOpacity>
+          )}
           <BottomSheetModal
             index={0}
             ref={bottomSheetRef}
