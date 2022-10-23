@@ -1,13 +1,15 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons'
-import React, { useRef } from 'react'
-import { FlatList, StyleSheet, TouchableOpacity, View } from 'react-native'
+import React, { useState, useRef } from 'react'
+import { FlatList, StyleSheet, View } from 'react-native'
 import { useSelector } from 'react-redux'
 
-import { Input } from '../components/common'
 import Message from '../components/message'
+import TempMessage from '../components/message/TempMessage'
+import Form from '../components/message/Form'
 import colors from '../config/colors'
 
 const Chat = ({ navigation }) => {
+  const [showTempMessage, setShowTempMessage] = useState(false)
+  const [text, setText] = useState(null)
   const { messages } = useSelector((store) => store.tchat)
   const flatListRef = useRef()
 
@@ -27,14 +29,13 @@ const Chat = ({ navigation }) => {
         showsVerticalScrollIndicator={false}
         onContentSizeChange={handleScrollToEnd}
         keyExtractor={(message) => message.id}
-        ListFooterComponent={<View style={{ paddingVertical: 4 }} />}
+        ListFooterComponent={
+          <View style={{ paddingVertical: 4 }}>
+            <TempMessage show={showTempMessage} text={text} />
+          </View>
+        }
       />
-      <View style={styles.inputContainer}>
-        <Input placeholder="Tapez un message" size={34} width="87%" />
-        <TouchableOpacity>
-          <MaterialCommunityIcons name="send" style={styles.icon} />
-        </TouchableOpacity>
-      </View>
+      <Form showTemp={setShowTempMessage} setText={setText} />
     </>
   )
 }
@@ -48,18 +49,5 @@ const styles = StyleSheet.create({
   view: {
     paddingHorizontal: 15,
     backgroundColor: colors.paper
-  },
-  icon: {
-    fontSize: 28,
-    color: colors.primary
-  },
-  inputContainer: {
-    paddingHorizontal: 15,
-    backgroundColor: colors.paper,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    borderTopColor: colors.grey,
-    borderTopWidth: 1
   }
 })
