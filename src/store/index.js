@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 
 import loginReducer from '../features/login'
+import tchatReducer from '../features/tchat'
 
 const store = configureStore({
   reducer: {
-    login: loginReducer
+    login: loginReducer,
+    tchat: tchatReducer
   }
 })
 
