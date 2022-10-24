@@ -34,6 +34,37 @@ export const getMessages = createAsyncThunk(
     }
   }
 )
+
+export const sendMessage = createAsyncThunk(
+  'send/message',
+  async ({ data, setLoggedIn, showTemp }, thunkAPI) => {
+    try {
+      const res = await axios({
+        method: 'POST',
+        url: 'messages/',
+        data
+      })
+
+      if (res.status === 201) {
+        return res.data.sort((a, b) => (a.id > b.id ? 1 : -1))
+      }
+
+      if (res.status === 401) {
+        // logout user if unauthorized response status
+        setLoggedIn(false)
+        return thunkAPI.rejectWithValue({
+          status: true,
+          message: res.data.detail
+        })
+      }
+    } catch (error) {
+      return thunkAPI.rejectWithValue({ status: true, message: error.message })
+    } finally {
+      showTemp(false)
+    }
+  }
+)
+
 const tchatSlice = createSlice({
   name: 'tchat',
   initialState,
@@ -47,6 +78,19 @@ const tchatSlice = createSlice({
       state.error = { status: false, message: '' }
     },
     [getMessages.rejected]: (state, action) => {
+      state.loading = false
+      state.error = action.payload
+    },
+
+    [sendMessage.pending]: (state) => {
+      state.loading = true
+    },
+    [sendMessage.fulfilled]: (state, action) => {
+      state.loading = false
+      state.messages.push(...action.payload)
+      state.error = { status: false, message: '' }
+    },
+    [sendMessage.rejected]: (state, action) => {
       state.loading = false
       state.error = action.payload
     }
