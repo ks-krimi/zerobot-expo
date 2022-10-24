@@ -1,12 +1,18 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { Formik } from 'formik'
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
+import { useDispatch } from 'react-redux'
 
 import colors from '../../config/colors'
+import { AuthContext } from '../../context/auth'
+import { sendMessage } from '../../features/tchat'
 import { Input } from '../common'
 
 const Form = ({ showTemp, setText }) => {
+  const { setLoggedIn } = useContext(AuthContext)
+  const dispatch = useDispatch()
+
   useEffect(() => {
     if (!showTemp) {
       setText(null)
@@ -20,6 +26,7 @@ const Form = ({ showTemp, setText }) => {
         setText(values.content)
         helpers.resetForm()
         showTemp(true)
+        dispatch(sendMessage({ data: values, setLoggedIn, showTemp }))
       }}
     >
       {({
