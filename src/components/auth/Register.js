@@ -1,23 +1,38 @@
 import { Formik } from 'formik'
 import React from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { useDispatch } from 'react-redux'
 
 import colors from '../../config/colors'
+import { register } from '../../features/register'
 import { validateRegister } from '../../helpers'
 import { Button, Input } from '../common'
 
-const Register = ({ setLogin }) => {
+const Register = ({ bottomSheet, setLogin }) => {
+  const dispatch = useDispatch()
+
   return (
     <View style={styles.container}>
       <Formik
         initialValues={{ username: '', email: '', password: '' }}
         validate={validateRegister}
         onSubmit={(values, helpers) => {
-          console.log(values)
-          helpers.resetForm()
+          dispatch(
+            register({
+              credentials: values,
+              onSuccess: { bottomSheet, helpers }
+            })
+          )
         }}
       >
-        {({ handleChange, handleBlur, handleSubmit, isValid, values }) => (
+        {({
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          isValid,
+          values,
+          isSubmitting
+        }) => (
           <View>
             <Input
               icon="account"
@@ -42,7 +57,7 @@ const Register = ({ setLogin }) => {
               value={values.password}
             />
             <Button
-              disabled={!isValid}
+              disabled={!isValid || isSubmitting}
               onPress={handleSubmit}
               title="S'inscrire"
               style={{ padding: 8 }}
