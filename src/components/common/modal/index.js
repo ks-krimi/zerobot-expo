@@ -64,7 +64,7 @@ const AppModal = ({
           onAnimationFinish={removeError}
           source={
             type === 'error'
-              ? require('../../../../assets/errors.json')
+              ? require('../../../../assets/error.json')
               : type === 'success'
               ? require('../../../../assets/success.json')
               : require('../../../../assets/congratulation.json')
