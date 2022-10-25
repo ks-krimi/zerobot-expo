@@ -16,6 +16,7 @@ import React, {
 import { StyleSheet, TouchableOpacity } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { useDispatch } from 'react-redux'
+import { useFonts } from 'expo-font'
 
 import { Login, Register } from '../components/auth/'
 import { Button, Text } from '../components/common'
@@ -26,6 +27,7 @@ import routes from '../constants/routes'
 import { AuthContext } from '../context/auth'
 import { defineAccessToken } from '../features/login'
 import { getMessages } from '../features/tchat'
+import useGreeting from '../hooks/useGreeting'
 
 SplashScreen.preventAutoHideAsync()
 
@@ -34,10 +36,15 @@ const Welcome = ({ navigation }) => {
   const { loggedIN, setLoggedIn } = useContext(AuthContext)
   const [authLoaded, setAuthLoaded] = useState(false)
   const dispatch = useDispatch()
+  const { greeting } = useGreeting()
 
   const bottomSheetRef = useRef(null)
 
   const snapPoints = useMemo(() => ['40%', '55%'], [])
+
+  const [fontsLoaded] = useFonts({
+    HomemadeApple: require('../../assets/HomemadeApple.ttf')
+  })
 
   useEffect(() => {
     async function prepare() {
@@ -72,7 +79,7 @@ const Welcome = ({ navigation }) => {
     if (authLoaded) {
       await SplashScreen.hideAsync()
     }
-  }, [authLoaded])
+  }, [authLoaded, fontsLoaded])
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -82,7 +89,7 @@ const Welcome = ({ navigation }) => {
           style={styles.container}
           viewStyle={styles.view}
         >
-          <Text style={styles.text}> Bonjour, moi c'est Zérobot</Text>
+          <Text style={styles.welcome}>{greeting}, moi c'est Zérobot</Text>
           <Zerobot />
           <Button
             onPress={() => {
@@ -161,8 +168,15 @@ const styles = StyleSheet.create({
     color: colors.dark,
     paddingVertical: 8
   },
+  welcome: {
+    color: colors.dark,
+    fontFamily: 'HomemadeApple',
+    fontSize: 28,
+    textAlign: 'center'
+  },
   footer: {
     color: colors.dark,
+    fontFamily: 'HomemadeApple',
     fontSize: 12,
     textAlign: 'center',
     position: 'absolute',
