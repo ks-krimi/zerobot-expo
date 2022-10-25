@@ -127,7 +127,10 @@ const Welcome = ({ navigation }) => {
                   setLoggedIn={setLoggedIn}
                 />
               ) : (
-                <Register setLogin={setLogin} />
+                <Register
+                  bottomSheet={bottomSheetRef.current}
+                  setLogin={setLogin}
+                />
               )}
             </BottomSheetScrollView>
           </BottomSheetModal>
