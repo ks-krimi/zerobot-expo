@@ -1,16 +1,37 @@
-import React from 'react'
 import Constants from 'expo-constants'
-import { StyleSheet, View, ScrollView } from 'react-native'
+import React from 'react'
+import { ScrollView, StyleSheet, View } from 'react-native'
+import { useSelector } from 'react-redux'
 
 import colors from '../../config/colors'
+import { Modal } from '../common/'
 
 function Container({ children, style, viewStyle, onLayout }) {
+  const { success: successRegister, error: errorRegister } = useSelector(
+    (store) => store.register
+  )
+  const { success: successLogin, error: errorLogin } = useSelector(
+    (store) => store.login
+  )
+
   return (
     <ScrollView
       onLayout={onLayout}
       contentContainerStyle={[styles.container, style]}
     >
-      <View style={[styles.view, viewStyle]}>{children}</View>
+      <View style={[styles.view, viewStyle]}>
+        {children}
+        <Modal
+          type={successRegister || successLogin ? 'congratulation' : 'error'}
+          modalVisible={
+            successRegister ||
+            successLogin ||
+            errorLogin.status ||
+            errorRegister.status
+          }
+          message={errorLogin.message || errorRegister.message}
+        />
+      </View>
     </ScrollView>
   )
 }
