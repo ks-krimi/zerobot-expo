@@ -4,9 +4,12 @@ import { Modal, StyleSheet, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 
 import colors from '../../../config/colors'
-import { removeError as removeLoginErr } from '../../../features/login'
 import {
-  reinitilize,
+  reinitilize as reinitilizeLoginSuccess,
+  removeError as removeLoginErr
+} from '../../../features/login'
+import {
+  reinitilize as reinitilizeRegisterSuccess,
   removeError as removeRegisterErr
 } from '../../../features/register'
 import Text from '../text'
@@ -16,10 +19,12 @@ const AppModal = ({
   message = null,
   type = 'congratulation' || 'error' || 'success'
 }) => {
-  const { success, error: errorRegister } = useSelector(
+  const { success: successRegister, error: errorRegister } = useSelector(
     (store) => store.register
   )
-  const { error: errorLogin } = useSelector((store) => store.login)
+  const { success: successLogin, error: errorLogin } = useSelector(
+    (store) => store.login
+  )
 
   const dispatch = useDispatch()
 
@@ -30,8 +35,11 @@ const AppModal = ({
     if (errorRegister.status) {
       dispatch(removeRegisterErr())
     }
-    if (success) {
-      dispatch(reinitilize())
+    if (successLogin) {
+      dispatch(reinitilizeLoginSuccess())
+    }
+    if (successRegister) {
+      dispatch(reinitilizeRegisterSuccess())
     }
   }
 
