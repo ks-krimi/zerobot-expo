@@ -82,6 +82,7 @@ const Welcome = ({ navigation }) => {
           style={styles.container}
           viewStyle={styles.view}
         >
+          <Text style={styles.text}> Bonjour, moi c'est Zérobot</Text>
           <Zerobot />
           <Button
             onPress={() => {
@@ -93,8 +94,8 @@ const Welcome = ({ navigation }) => {
             }}
             title={
               loggedIN
-                ? 'Démarrer une discussion'
-                : 'Veuillez-vous authentifier'
+                ? 'Posez-moi vos questions'
+                : 'Identifiez-vous maintenant'
             }
             style={{ width: 250 }}
           />
@@ -134,6 +135,7 @@ const Welcome = ({ navigation }) => {
               )}
             </BottomSheetScrollView>
           </BottomSheetModal>
+          <Text style={styles.footer}>_ © 2022 avec ❤️ par Krimi _</Text>
         </Container>
       </BottomSheetModalProvider>
     </GestureHandlerRootView>
@@ -158,5 +160,12 @@ const styles = StyleSheet.create({
   text: {
     color: colors.dark,
     paddingVertical: 8
+  },
+  footer: {
+    color: colors.dark,
+    fontSize: 12,
+    textAlign: 'center',
+    position: 'absolute',
+    bottom: 5
   }
 })
