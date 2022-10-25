@@ -5,6 +5,7 @@ import axios from '../http.common'
 import { createFormData } from '../utils'
 
 const initialState = {
+  success: false,
   accessToken: null,
   loading: false,
   error: { status: false, message: '' }
@@ -57,6 +58,9 @@ const loginSlice = createSlice({
     removeError: (state, _) => {
       state.error.status = false
       state.error.message = ''
+    },
+    reinitilize: (state, _) => {
+      state.success = false
     }
   },
   extraReducers: {
@@ -64,6 +68,7 @@ const loginSlice = createSlice({
       state.loading = true
     },
     [login.fulfilled]: (state, action) => {
+      state.success = true
       state.loading = false
       state.accessToken = action.payload
       state.error = { status: false, message: '' }
@@ -75,5 +80,6 @@ const loginSlice = createSlice({
   }
 })
 
-export const { defineAccessToken, removeError } = loginSlice.actions
+export const { defineAccessToken, removeError, reinitilize } =
+  loginSlice.actions
 export default loginSlice.reducer
