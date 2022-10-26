@@ -76,19 +76,19 @@ const Welcome = ({ navigation }) => {
   }, [loggedIN, setLoggedIn])
 
   const onLayoutRootView = useCallback(async () => {
-    if (authLoaded) {
+    if (authLoaded && fontsLoaded) {
       await SplashScreen.hideAsync()
     }
   }, [authLoaded, fontsLoaded])
 
+  if (!fontsLoaded) {
+    return null
+  }
+
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
+    <GestureHandlerRootView onLayout={onLayoutRootView} style={{ flex: 1 }}>
       <BottomSheetModalProvider>
-        <Container
-          onLayout={onLayoutRootView}
-          style={styles.container}
-          viewStyle={styles.view}
-        >
+        <Container style={styles.container} viewStyle={styles.view}>
           <Text style={styles.welcome}>{greeting}, moi c'est Zérobot</Text>
           <Zerobot />
           <Button
