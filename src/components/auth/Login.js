@@ -59,9 +59,13 @@ const Login = ({ bottomSheet, setLogin, setLoggedIn }) => {
         )}
       </Formik>
 
-      <TouchableOpacity onPress={() => setLogin(false)}>
-        <Text style={{ color: colors.dark }}>
-          J'ai pas un compte, s'inscrire.
+      <TouchableOpacity
+        style={styles.touchable}
+        onPress={() => setLogin(false)}
+      >
+        <Text style={styles.text}>Je n'ai pas de compte, </Text>
+        <Text style={[styles.text, { textDecorationLine: 'underline' }]}>
+          s'inscrire.
         </Text>
       </TouchableOpacity>
     </View>
@@ -74,5 +78,9 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     flex: 1
-  }
+  },
+  touchable: {
+    flexDirection: 'row'
+  },
+  text: { color: colors.dark }
 })
