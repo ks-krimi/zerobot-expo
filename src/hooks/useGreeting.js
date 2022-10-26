@@ -6,7 +6,7 @@ const useGreeting = () => {
 
   useEffect(() => {
     setTime(new Date().getHours())
-    if (time >= 0 && time <= 12) {
+    if (time >= 0 && time <= 17) {
       setGreeting('Bonjour')
     } else {
       setGreeting('Bonsoir')
