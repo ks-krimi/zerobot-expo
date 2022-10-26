@@ -40,7 +40,7 @@ const Welcome = ({ navigation }) => {
 
   const bottomSheetRef = useRef(null)
 
-  const snapPoints = useMemo(() => ['40%', '55%'], [])
+  const snapPoints = useMemo(() => ['55%'], [])
 
   const [fontsLoaded] = useFonts({
     HomemadeApple: require('../../assets/HomemadeApple.ttf')
