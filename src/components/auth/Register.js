@@ -65,9 +65,10 @@ const Register = ({ bottomSheet, setLogin }) => {
           </View>
         )}
       </Formik>
-      <TouchableOpacity onPress={() => setLogin(true)}>
-        <Text style={{ color: colors.dark }}>
-          J'ai déja un compte, se connecter.
+      <TouchableOpacity style={styles.touchable} onPress={() => setLogin(true)}>
+        <Text style={styles.text}>J'ai déjà un compte, </Text>
+        <Text style={[styles.text, { textDecorationLine: 'underline' }]}>
+          se connecter.
         </Text>
       </TouchableOpacity>
     </View>
@@ -80,5 +81,9 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     flex: 1
-  }
+  },
+  touchable: {
+    flexDirection: 'row'
+  },
+  text: { color: colors.dark }
 })
