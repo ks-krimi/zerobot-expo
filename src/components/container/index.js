@@ -6,19 +6,14 @@ import { useSelector } from 'react-redux'
 import colors from '../../config/colors'
 import { Modal } from '../common/'
 
-function Container({ children, style, viewStyle, onLayout }) {
+function Container({ children, style, viewStyle }) {
   const { success: successRegister, error: errorRegister } = useSelector(
     (store) => store.register
   )
-  const { success: successLogin, error: errorLogin } = useSelector(
-    (store) => store.login
-  )
+  const { success: successLogin, error } = useSelector((store) => store.login)
 
   return (
-    <ScrollView
-      onLayout={onLayout}
-      contentContainerStyle={[styles.container, style]}
-    >
+    <ScrollView contentContainerStyle={[styles.container, style]}>
       <View style={[styles.view, viewStyle]}>
         {children}
         <Modal
@@ -26,10 +21,10 @@ function Container({ children, style, viewStyle, onLayout }) {
           modalVisible={
             successRegister ||
             successLogin ||
-            errorLogin.status ||
+            error.status ||
             errorRegister.status
           }
-          message={errorLogin.message || errorRegister.message}
+          message={error.message || errorRegister.message}
         />
       </View>
     </ScrollView>
