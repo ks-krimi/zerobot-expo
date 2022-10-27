@@ -29,7 +29,7 @@ export const login = createAsyncThunk(
         AsyncStorage.setItem('token', JSON.stringify(res.data))
         setLoggedIn(true)
         helpers.resetForm()
-        bottomSheet.dismiss()
+        bottomSheet?.current.dismiss()
         return res.data
       }
       if (res.status === 404) {
@@ -43,7 +43,7 @@ export const login = createAsyncThunk(
       }
     } catch (error) {
       helpers.setSubmitting(false)
-      return thunkAPI.rejectWithValue({ status: true, message: err.message })
+      return thunkAPI.rejectWithValue({ status: true, message: error.message })
     }
   }
 )

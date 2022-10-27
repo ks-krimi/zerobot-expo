@@ -12,17 +12,14 @@ export const register = createAsyncThunk(
   'auth/register',
   async ({ credentials, onSuccess: { bottomSheet, helpers } }, thunkAPI) => {
     try {
-      const { success } = thunkAPI.getState()
       const res = await axios({
         method: 'POST',
         url: 'users/',
         data: credentials
       })
       if (res.status === 201) {
-        if (!success) {
-          helpers.resetForm()
-          bottomSheet.dismiss()
-        }
+        helpers.resetForm()
+        bottomSheet?.current.dismiss()
       }
       if (res.status === 400) {
         return thunkAPI.rejectWithValue({

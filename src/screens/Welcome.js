@@ -130,15 +130,12 @@ const Welcome = ({ navigation }) => {
               </Text>
               {login ? (
                 <Login
-                  bottomSheet={bottomSheetRef.current}
+                  bottomSheet={bottomSheetRef}
                   setLogin={setLogin}
                   setLoggedIn={setLoggedIn}
                 />
               ) : (
-                <Register
-                  bottomSheet={bottomSheetRef.current}
-                  setLogin={setLogin}
-                />
+                <Register bottomSheet={bottomSheetRef} setLogin={setLogin} />
               )}
             </BottomSheetScrollView>
           </BottomSheetModal>
